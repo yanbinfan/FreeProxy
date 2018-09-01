@@ -14,8 +14,12 @@
 '''
 import time
 import random
-from proxies import *
-from utils.utils import *
+if __name__ == '__main__':
+	from proxies import *
+	from utils.utils import *
+else:
+	from .proxies import *
+	from .utils.utils import *
 
 
 # 代理获取工具
@@ -26,6 +30,7 @@ class proxytool():
 		self.usedapi = []
 		self.author = '作者: Charles'
 		self.info = '公众号: Charles的皮卡丘'
+		self.version = '0.1.0'
 		self.usage = '''
 Callable function:
 	get(num, api, **kwargs): 获取并检测代理有效性
@@ -102,7 +107,7 @@ Callable function:
 		return self.usage
 	# 关于作者
 	def print_about(self):
-		print(self.author + '\n' + self.info)
+		print(self.author + '\n' + self.info + '\n' + self.version)
 		return self.author, self.info
 	# 根据类名返回实例化的类
 	def __get_api_by_classname(self, classname):
