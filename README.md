@@ -1,6 +1,9 @@
 # FreeProxy
 Get free proxies.
 
+# Introduction:
+https://mp.weixin.qq.com/s/6gNRQDXK3Ch6Mt3Skrisow
+
 # Proxy sources:
 - [data5u](http://www.data5u.com/)
 - [66ip](http://www.66ip.cn/)
@@ -10,6 +13,12 @@ Get free proxies.
 - [ip3366](http://www.ip3366.net/free/)
 - [iphai](http://www.iphai.com/free/ng)
 - [jiangxianli](http://ip.jiangxianli.com/?page=1)
+
+# Version: 0.1.0
+
+# Test Platform:
+- python3.6 and python3.5
+- Windows10
 
 # More:
 ## WeChat Official Accounts:
