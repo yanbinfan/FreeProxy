@@ -31,7 +31,7 @@ class ip66():
 	def get(self, page=1, area=None, proxy_type='all', quality='all'):
 		if proxy_type != 'all':
 			print('[Error]: 66ip代理类<proxy_type>参数不支持非<all>选项.')
-			return None
+			return []
 		if area is None:
 			area = random.randint(1, 34)
 		area = 34 if area > 34 else area

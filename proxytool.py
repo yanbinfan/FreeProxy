@@ -8,6 +8,9 @@
 	-快代理爬取: kuaidaili.kuaidaili()
 	-66ip代理爬取: ip66.ip66()
 	-无忧代理爬取: data5u.data5u()
+	-云代理爬取: ip3366.ip3366()
+	-ip海代理爬取: iphai.iphai()
+	-免费代理IP库代理爬取: jiangxianli.jiangxianli()
 '''
 import time
 import random
@@ -18,7 +21,9 @@ from utils.utils import *
 # 代理获取工具
 class proxytool():
 	def __init__(self):
-		self.proxynames = ['xici', '66ip', 'kuaidaili', 'mimiip', 'data5u']
+		self.proxynames = ['xici', '66ip', 'kuaidaili', 'mimiip', 'data5u', 'ip3366', 'iphai', 'jiangxianli']
+		# avoid using the same api while retry
+		self.usedapi = []
 		self.author = '作者: Charles'
 		self.info = '公众号: Charles的皮卡丘'
 		self.usage = '''
@@ -26,11 +31,12 @@ Callable function:
 	get(num, api, **kwargs): 获取并检测代理有效性
 		Input:
 			-num(默认为1): 需要的代理数量
-			-api(默认为random): 指定抓取的网站, 可选项为'xici', '66ip', 'kuaidaili', 'data5u', 'mimiip', 'random'
+			-api(默认为random): 指定抓取的网站, 可选项为'xici', '66ip', 'kuaidaili', 'data5u', 'mimiip', 'ip3366', 'iphai', 'jiangxianli', 'random'
+			-retry(默认为5): 若无法获得足量代理, 重新搜索次数 
 			-page(默认抓第一页,一般第一页是最新的): 抓取的页码
 			-proxy_type(默认为all): 代理类型, 可选项为'all', 'http', 'https'
 			-quality(默认为all): 高(普)匿代理/普通代理, 可选项为'all', 'anonymous', 'common'
-			-headers, method, host
+			-headers(User-agent), method(GET), host(baidu.com)
 		Return:
 			-proxy_list: [(ip, port), ...]
 	get_proxy(page, proxy_type, quality, api): 获取代理
@@ -39,13 +45,12 @@ Callable function:
 	print_about(): 关于作者
 '''
 	# 获取并检测代理有效性
-	def get(self, num=1, api='random', **kwargs):
+	def get(self, num=1, api='random', retry=5, **kwargs):
 		validproxy_list = []
-		retries = 3
 		page = kwargs.get('page')
 		while True:
-			retries -= 1
-			if retries < 2 and api != 'random':
+			retry -= 1
+			if retry < 2 and api != 'random':
 				page += 1
 			proxiesGot = self.get_proxy(page=page, 
 										proxy_type=kwargs.get('proxy_type'), 
@@ -56,11 +61,11 @@ Callable function:
 									   host=kwargs.get('host'), 
 									   headers=kwargs.get('headers'), 
 									   method=kwargs.get('method'))
-				if res:
+				if res and proxy not in validproxy_list:
 					validproxy_list.append(proxy)
 				if len(validproxy_list) == num:
 					break
-			if (len(validproxy_list) == num) or retries < 0:
+			if (len(validproxy_list) == num) or retry < 0:
 				break
 			time.sleep(1)
 		return validproxy_list
@@ -75,7 +80,11 @@ Callable function:
 		if api is None:
 			api = 'random'
 		if (api == 'random') or (api not in self.proxynames):
-			api = random.choice(self.proxynames)
+			while True:
+				api = random.choice(self.proxynames)
+				if api not in self.usedapi:
+					self.usedapi.append(api)
+				break
 		apiClass = self.__get_api_by_classname(classname=api)
 		proxiesGot = apiClass.get(page=page, proxy_type=proxy_type, quality=quality)
 		return proxiesGot
@@ -107,6 +116,12 @@ Callable function:
 			return mimiip.mimiip()
 		elif classname == 'data5u':
 			return data5u.data5u()
+		elif classname == 'ip3366':
+			return ip3366.ip3366()
+		elif classname == 'iphai':
+			return iphai.iphai()
+		elif classname == 'jiangxianli':
+			return jiangxianli.jiangxianli()
 		else:
 			return None
 	# 方便查看类

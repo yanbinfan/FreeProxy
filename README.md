@@ -7,6 +7,9 @@ Get free proxies.
 - [kuaidaili](https://www.kuaidaili.com)
 - [mimiip](http://www.mimiip.com)
 - [xici](http://www.xicidaili.com/)
+- [ip3366](http://www.ip3366.net/free/)
+- [iphai](http://www.iphai.com/free/ng)
+- [jiangxianli](http://ip.jiangxianli.com/?page=1)
 
 # More:
 ## WeChat Official Accounts:
